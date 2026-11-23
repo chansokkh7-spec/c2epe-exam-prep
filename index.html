@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C2-EPE Testing Center</title>
+<link rel="icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f2147;--navy2:#24407f;--gold:#c9973a;--gold2:#e8c36a;--ink:#1d1d1f;--ok:#1e8e3e;--bad:#d93025;--bg:#f4f6fb;--mut:#6a738a}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans Khmer",sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.5}
+header{background:radial-gradient(circle at 30% 20%,var(--navy2),var(--navy) 70%);color:#fff;padding:12px 16px;border-bottom:4px solid var(--gold);position:sticky;top:0;z-index:30}
+header .in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px}
+header h1{margin:0;font-size:18px;flex:1}header h1 small{display:block;color:var(--gold2);font-size:12px;font-weight:600;letter-spacing:.5px}
+header button{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:6px 14px;cursor:pointer;font-size:13px}
+#timer{background:var(--gold);color:var(--navy);font-weight:800;border-radius:20px;padding:5px 12px;font-size:14px;display:none}
+main{max-width:1100px;margin:0 auto;padding:14px 12px 90px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{background:#fff;border:1px solid #e3e8f5;border-radius:14px;padding:14px 16px;box-shadow:0 2px 8px rgba(15,33,71,.06)}
+.card.btn{cursor:pointer}.card.btn:hover{border-color:var(--gold)}
+.card.off{opacity:.6}.card h3{margin:0 0 4px;color:var(--navy)}
+.tag{display:inline-block;border-radius:10px;padding:1px 9px;font-size:12px;font-weight:700;background:#e8f5e9;color:#1e6b34}.tag.soon{background:#eceff5;color:#6a738a}
+.sk{font-size:30px}.band{font-size:26px;font-weight:800;color:var(--navy)}
+h2{color:var(--navy);margin:10px 0}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn2{background:var(--navy);color:#fff;border:0;border-radius:10px;padding:10px 16px;font-size:15px;font-weight:700;cursor:pointer}.btn2.alt{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}.btn2.gold{background:var(--gold);color:var(--navy)}.btn2:disabled{opacity:.45;cursor:not-allowed}
+.tabs{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}.tabs button{background:#fff;border:1.5px solid #d6dbe8;border-radius:20px;padding:6px 14px;cursor:pointer;font-weight:700;color:var(--navy)}.tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:820px){.split{grid-template-columns:1fr}}
+.pass{background:#fff;border-radius:14px;padding:14px 16px;border:1px solid #e3e8f5;max-height:78vh;overflow:auto}.pass p{margin:0 0 10px;font-size:15.5px}.pass b.l{display:inline-block;background:var(--navy);color:#fff;border-radius:6px;padding:0 7px;margin-right:6px}
+.grp{background:#fff;border-radius:14px;padding:12px 16px;margin-bottom:12px;border:1px solid #e3e8f5}.grp h4{margin:0 0 4px;color:var(--navy)}.instr{font-size:14px;color:var(--mut);margin-bottom:8px}
+.q{padding:7px 0;border-top:1px solid #f0f2f8}.q .n{display:inline-block;min-width:28px;font-weight:800;color:var(--navy)}
+.q input[type=text]{border:1.5px solid #d6dbe8;border-radius:8px;padding:6px 10px;font-size:15px;width:190px;max-width:100%}
+.q select{border:1.5px solid #d6dbe8;border-radius:8px;padding:6px;font-size:15px;max-width:100%}
+.q label{display:block;margin:3px 0 3px 30px;cursor:pointer}
+.q.ok{background:#eaf7ee}.q.no{background:#fdecea}.fb{font-size:13px;margin:3px 0 0 30px}.fb b{color:var(--ok)}.fb i{color:var(--mut)}
+.bank{background:#f4f6fb;border-radius:10px;padding:8px 12px;font-size:14px;margin:6px 0}
+audio{width:100%;margin:6px 0}
+.sum{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:14px;padding:14px 18px;margin:10px 0}.sum .band{color:var(--gold2)}
+.script{background:#fffaf0;border:1px solid #ecd9a8;border-radius:12px;padding:10px 14px;font-size:14px;max-height:300px;overflow:auto}
+textarea{width:100%;min-height:260px;border:1.5px solid #d6dbe8;border-radius:12px;padding:12px;font:inherit;font-size:15.5px}
+.model{background:#f1f7ff;border:1px solid #c9ddf7;border-radius:12px;padding:10px 14px;margin:8px 0}.model p{margin:0 0 8px}
+.chk label{display:block;margin:3px 0}.small{font-size:13px;color:var(--mut)}
+.msg{background:#fff;border-radius:14px;padding:26px;text-align:center}
+.who{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}.who input{padding:9px 12px;border:1.5px solid #d6dbe8;border-radius:10px;font-size:15px}
+img.chart{max-width:100%;border:1px solid #e3e8f5;border-radius:10px;background:#fff}
+.rec{margin-top:6px}
+</style>
+</head>
+<body>
+<header><div class="in"><button id="back" onclick="goBack()" style="display:none">← Back</button><img src="logo.png" alt="C2-EPE Testing Center" style="height:46px;background:#fff;border-radius:8px;padding:2px 6px"><h1>Testing Center<small id="sub">Practice tests for international and national exams</small></h1><span id="timer"></span></div></header>
+<main id="main"></main>
+<script type="module">
+/* sends scores to the school's Firebase (same collection as c2-practice.html) */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+try{
+  const app=initializeApp({apiKey:"AIzaSyAmATKmyTWQqqyNDqxbzN4CdTKAyzG1Dq4",authDomain:"c2epe-school-share-and-post.firebaseapp.com",projectId:"c2epe-school-share-and-post",storageBucket:"c2epe-school-share-and-post.firebasestorage.app"});
+  const db=getFirestore(app); window.C2SAVE=function(d){return addDoc(collection(db,"practiceResults"),d);}; if(window.C2FLUSH) window.C2FLUSH();
+}catch(e){console.warn("Firebase not available",e);}
+</script>
+<script src="exams.js"></script>
+<script>
+var AUDIO="audio/", main=document.getElementById('main'), timerEl=document.getElementById('timer');
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+function jget(k,d){try{var v=JSON.parse(store(k)||'null');return v==null?d:v;}catch(e){return d;}}
+/* ---------- student identity (same as c2-practice) ---------- */
+function who(){
+  try{var s=JSON.parse(localStorage.getItem('c2epe_student_session')||'null');if(s&&(s.name||s.studentId))return{studentId:s.studentId||'',name:s.name||s.studentId,cls:s.cls||'',login:true};}catch(e){}
+  var w=jget('c2p-who',null);return w&&w.name?{studentId:'',name:w.name,cls:w.cls||'',login:false}:null;
+}
+function queue(){return jget('c2p-queue',[]);}
+function send(d){
+  if(!window.C2SAVE){var q=queue();q.push(d);store('c2p-queue',JSON.stringify(q.slice(-50)));return;}
+  window.C2SAVE(d).catch(function(){var q=queue();q.push(d);store('c2p-queue',JSON.stringify(q.slice(-50)));});
+}
+window.C2FLUSH=function(){var q=queue();if(!q.length||!window.C2SAVE)return;store('c2p-queue','[]');q.forEach(function(d){window.C2SAVE(d).catch(function(){var k=queue();k.push(d);store('c2p-queue',JSON.stringify(k.slice(-50)));});});};
+setTimeout(function(){if(window.C2FLUSH)window.C2FLUSH();},3000);
+function report(T,skill,score,total,band,self){
+  var me=who()||{name:'(no name)',cls:'',studentId:'',login:false},now=new Date();
+  send({prefix:'ielts',level:T.exam,setId:T.id+'-'+skill,setTitle:T.title+' · '+skill.charAt(0).toUpperCase()+skill.slice(1),kind:'exam',exam:T.exam,section:skill,band:band,selfAssessed:!!self,
+        studentId:me.studentId,studentName:me.name,cls:me.cls,login:!!me.login,score:score,total:total,pct:Math.round(score*100/Math.max(1,total)),attempt:1,at:now.toISOString(),day:now.toISOString().slice(0,10)});
+}
+function needName(){
+  if(who())return '';
+  return '<div class="card" style="margin-bottom:10px"><b>Your name</b> <span class="small">(so your teacher can see your scores)</span><div class="who"><input id="wn" placeholder="Name"><input id="wc" placeholder="Class"><button class="btn2" onclick="saveWho()">Save</button></div></div>';
+}
+function saveWho(){var n=$('wn').value.trim();if(!n){$('wn').style.borderColor='#d93025';return;}store('c2p-who',JSON.stringify({name:n,cls:$('wc').value.trim()}));route();}
+/* ---------- timer ---------- */
+var tick=null,tLeft=0,tCb=null;
+function startTimer(min,cb){stopTimer();tLeft=min*60;tCb=cb;timerEl.style.display='inline-block';draw();tick=setInterval(function(){tLeft--;draw();if(tLeft<=0){stopTimer();if(tCb)tCb();}},1000);}
+function draw(){var m=Math.floor(tLeft/60),s=tLeft%60;timerEl.textContent='⏱ '+m+':'+(s<10?'0':'')+s;}
+function stopTimer(){if(tick)clearInterval(tick);tick=null;timerEl.style.display='none';}
+/* ---------- data loading ---------- */
+function loadTest(id,cb){
+  if(window.EXAMS&&EXAMS[id])return cb(EXAMS[id]);
+  main.innerHTML='<div class="msg">⏳ Loading test…</div>';
+  var s=document.createElement('script');s.src=id+'.js?v='+Date.now();s.onload=function(){cb(EXAMS[id]);};
+  s.onerror=function(){main.innerHTML='<div class="msg"><div style="font-size:40px">⚠️</div>Cannot load the test. Check your internet connection.</div>';};document.head.appendChild(s);
+}
+function bandOf(table,raw){for(var i=0;i<table.length;i++)if(raw>=table[i][0])return table[i][1];return 0;}
+function bestOf(id,skill){return jget('ep-best-'+id+'-'+skill,null);}
+function setBest(id,skill,o){var b=bestOf(id,skill);if(!b||o.band>=b.band)store('ep-best-'+id+'-'+skill,JSON.stringify(o));}
+/* ---------- routing ---------- */
+function go(h){location.hash=h;}
+function goBack(){var p=(location.hash||'#/').slice(2).split('/').filter(Boolean);p.pop();go('#/'+p.join('/'));}
+window.addEventListener('hashchange',route);
+function route(){
+  stopTimer();window.scrollTo(0,0);
+  var p=(location.hash||'#/').slice(2).split('/').filter(Boolean);
+  $('back').style.display=p.length?'inline-block':'none';
+  if(!p.length)return home();
+  if(p.length===1)return family(p[0]);
+  loadTest(p[1],function(T){ if(p.length===2)return lobby(T); var f={listening:listening,reading:reading,writing:writing,speaking:speaking}[p[2]]; f?f(T):lobby(T);});
+}
+function home(){
+  $('sub').textContent='Practice tests for international and national exams';
+  var h='<div style="text-align:center"><img src="logo.png" alt="C2-EPE Testing Center" style="max-width:min(420px,90%);height:auto"></div>'+needName()+'<h2>Choose an exam</h2><div class="grid">';
+  EXAM_FAMILIES.forEach(function(f){
+    var n=f.tests.length;
+    h+='<div class="card btn'+(n?'':' off')+'" onclick="'+(n?"go('#/"+f.id+"')":'')+'"><div class="sk">'+f.icon+'</div><h3>'+esc(f.name)+'</h3><div class="small">'+esc(f.desc)+'</div><div style="margin-top:8px"><span class="tag'+(n?'':' soon')+'">'+(n?n+' test'+(n>1?'s':'')+' available':'Coming soon')+'</span></div></div>';
+  });
+  main.innerHTML=h+'</div>';
+}
+function family(id){
+  var f=EXAM_FAMILIES.filter(function(x){return x.id===id;})[0];if(!f)return home();
+  $('sub').textContent=f.name;
+  var h=needName()+'<h2>'+f.icon+' '+esc(f.name)+'</h2><p class="small">'+esc(f.desc)+'</p><div class="grid">';
+  f.tests.forEach(function(t){h+='<div class="card btn" onclick="go(\'#/'+id+'/'+t.id+'\')"><h3>'+esc(t.title)+'</h3><div class="small">'+esc(t.info)+'</div></div>';});
+  if(!f.tests.length)h+='<div class="msg">Coming soon</div>';
+  main.innerHTML=h+'</div>';
+}
+function lobby(T){
+  $('sub').textContent=T.title;
+  var sk=[['listening','🎧','Listening','40 questions · 30 min'],['reading','📖','Reading','40 questions · 60 min'],['writing','✍️','Writing','2 tasks · 60 min'],['speaking','🎤','Speaking','3 parts · 11–14 min']];
+  var h=needName()+'<h2>'+esc(T.title)+'</h2><div class="grid">',bs=[];
+  sk.forEach(function(s){var b=bestOf(T.id,s[0]);if(b)bs.push(b.band);
+    h+='<div class="card btn" onclick="go(\'#/ielts/'+T.id+'/'+s[0]+'\')"><div class="sk">'+s[1]+'</div><h3>'+s[2]+'</h3><div class="small">'+s[3]+'</div><div style="margin-top:8px">'+(b?'Best: <span class="band" style="font-size:20px">'+b.band.toFixed(1)+'</span>'+(b.self?' <span class="small">(self-assessed)</span>':''):'<span class="tag soon">Not done yet</span>')+'</div></div>';});
+  h+='</div>';
+  if(bs.length===4){var o=Math.round(bs.reduce(function(a,b){return a+b;},0)/4*2)/2;h+='<div class="sum"><div>Estimated overall band (best of each skill)</div><div class="band">'+o.toFixed(1)+'</div><div class="small" style="color:#cfd8ef">This is an estimate for practice only. Writing and Speaking are self-assessed.</div></div>';}
+  else h+='<p class="small">Finish all four skills to see your estimated overall band.</p>';
+  main.innerHTML=h;
+}
+/* ---------- question rendering & scoring ---------- */
+var LET='ABCDEFGH';
+function qHTML(q,g,pre){
+  var id=pre+q.n,h='<div class="q" id="q'+id+'"><span class="n">'+q.n+'</span>';
+  if(q.t==='fill'){var parts=q.q.split('____');h+=esc(parts[0])+' <input type="text" id="a'+id+'" autocomplete="off" autocapitalize="off" spellcheck="false"> '+esc(parts[1]||'');}
+  else if(q.t==='mcq'){h+=esc(q.q);q.o.forEach(function(o,i){h+='<label><input type="radio" name="a'+id+'" value="'+LET[i]+'"> <b>'+LET[i]+'</b> '+esc(o)+'</label>';});}
+  else if(q.t==='sel'){h+=esc(q.q)+' <select id="a'+id+'"><option value="">—</option>'+g.opts.map(function(o,i){return '<option value="'+LET[i]+'">'+LET[i]+(/^[A-H]$/.test(o)?'':' · '+esc(o.length>40?o.slice(0,40)+'…':o))+'</option>';}).join('')+'</select>';}
+  else{var op=q.t==='tfng'?['TRUE','FALSE','NOT GIVEN']:['YES','NO','NOT GIVEN'];h+=esc(q.q);op.forEach(function(o){h+='<label><input type="radio" name="a'+id+'" value="'+o+'"> '+o+'</label>';});}
+  return h+'<div class="fb" id="f'+id+'"></div></div>';
+}
+function groupsHTML(groups,pre){
+  return groups.map(function(g){
+    var h='<div class="grp"><h4>'+esc(g.title)+'</h4><div class="instr">'+esc(g.instr)+(g.note?' <i>'+esc(g.note)+'</i>':'')+'</div>';
+    if(g.opts.length&&g.qs[0].t==='sel')h+='<div class="bank">'+g.opts.map(function(o,i){return '<b>'+LET[i]+'</b> '+esc(o);}).join(' &nbsp;·&nbsp; ')+'</div>';
+    return h+g.qs.map(function(q){return qHTML(q,g,pre);}).join('')+'</div>';
+  }).join('');
+}
+function val(q,pre){
+  var id=pre+q.n;
+  if(q.t==='fill')return $('a'+id).value;
+  if(q.t==='sel')return $('a'+id).value;
+  var r=document.querySelector('input[name="a'+id+'"]:checked');return r?r.value:'';
+}
+function normFill(s){return String(s).toLowerCase().replace(/[‘’`]/g,"'").replace(/£/g,'').replace(/[.,;:!?]+$/,'').replace(/[\s\-]+/g,' ').trim();}
+function isRight(q,v){
+  if(!v)return false;
+  if(q.t!=='fill')return v===q.a;
+  var n=normFill(v),nd=n.replace(/ /g,'');
+  return q.a.some(function(a){var x=normFill(a);return x===n||x.replace(/ /g,'')===nd||x.replace(/ /g,'')===nd.replace(/^the/,'');});
+}
+function ansText(q,g){
+  if(q.t==='fill')return q.a[0];
+  if(q.t==='mcq')return q.a+' · '+q.o[LET.indexOf(q.a)];
+  if(q.t==='sel')return q.a+' · '+g.opts[LET.indexOf(q.a)];
+  return q.a;
+}
+function mark(groups,pre){
+  var score=0,total=0;
+  groups.forEach(function(g){g.qs.forEach(function(q){
+    total++;var v=val(q,pre),ok=isRight(q,v),el=$('q'+pre+q.n);score+=ok?1:0;el.className='q '+(ok?'ok':'no');
+    $('f'+pre+q.n).innerHTML=(ok?'✅ ':'❌ ')+(ok?'':'<b>Answer: '+esc(ansText(q,g))+'</b>')+(q.e?' <i>'+esc(q.e)+'</i>':'');
+    document.querySelectorAll('#q'+pre+q.n+' input,#q'+pre+q.n+' select').forEach(function(i){i.disabled=true;});
+  });});
+  return {score:score,total:total};
+}
+/* ---------- listening ---------- */
+function listening(T){
+  $('sub').textContent=T.title+' · Listening';
+  var L=T.listening,cur=jget('ep-cur-l',0),done=false,exam=false;
+  var h=needName()+'<h2>🎧 Listening</h2><div class="row"><label><input type="checkbox" id="exm"> Exam mode (audio plays once, 30-minute timer)</label></div><div class="tabs" id="tabs"></div><div id="sec"></div><div class="row" style="margin-top:10px"><button class="btn2 gold" id="sub1">Check my answers ✓</button><button class="btn2 alt" id="again" style="display:none">Try again ↺</button></div><div id="res"></div>';
+  main.innerHTML=h;
+  function secHTML(){
+    var out='';L.sections.forEach(function(s,i){
+      out+='<div class="sec" id="s'+i+'" style="display:'+(i===cur?'block':'none')+'"><div class="card" style="margin-bottom:10px"><b>'+esc(s.title)+' · '+esc(s.topic)+'</b><div class="small">'+esc(s.instr)+'</div><audio id="au'+i+'" src="'+AUDIO+T.id+'-L'+(i+1)+'.mp3" preload="none" controls controlsList="nodownload"></audio></div>'+groupsHTML(s.groups,'L')+'<div id="tr'+i+'"></div></div>';
+    });$('sec').innerHTML=out;
+    $('tabs').innerHTML=L.sections.map(function(s,i){return '<button class="'+(i===cur?'on':'')+'" onclick="lTab('+i+')">'+esc(s.title)+'</button>';}).join('');
+  }
+  window.lTab=function(i){cur=i;document.querySelectorAll('.sec').forEach(function(e,k){e.style.display=k===i?'block':'none';});document.querySelectorAll('#tabs button').forEach(function(b,k){b.className=k===i?'on':'';});window.scrollTo(0,0);};
+  secHTML();
+  $('exm').onchange=function(){
+    exam=this.checked;
+    document.querySelectorAll('audio').forEach(function(a){a.controls=!exam;a.pause();a.currentTime=0;a.onended=null;});
+    if(exam){startTimer(30,finish);var seq=0;
+      var playNext=function(){var a=$('au'+seq);if(!a)return;lTab(seq);a.play().catch(function(){});a.onended=function(){seq++;playNext();};};
+      var b=document.createElement('button');b.className='btn2';b.textContent='▶ Start the recording';b.onclick=function(){b.remove();playNext();};$('tabs').appendChild(b);}
+    else stopTimer();
+  };
+  function finish(){
+    if(done)return;done=true;stopTimer();document.querySelectorAll('audio').forEach(function(a){a.pause();});
+    var tot=0,sc=0;L.sections.forEach(function(s,i){var r=mark(s.groups,'L');sc+=r.score;tot+=r.total;
+      $('tr'+i).innerHTML='<details class="script" style="margin:8px 0"><summary><b>Transcript</b></summary>'+s.script.map(function(l){return '<p>'+esc(l[1])+'</p>';}).join('')+'</details>';});
+    var band=bandOf(T.bands.L,sc);
+    $('res').innerHTML='<div class="sum"><div>Listening score</div><div class="band">'+sc+' / '+tot+' &nbsp;·&nbsp; Band '+band.toFixed(1)+'</div><div class="small" style="color:#cfd8ef">Band is an estimate from the Academic conversion table.</div></div>';
+    $('sub1').style.display='none';$('again').style.display='inline-block';setBest(T.id,'listening',{score:sc,total:tot,band:band});report(T,'listening',sc,tot,band,false);
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+  }
+  $('sub1').onclick=finish;$('again').onclick=function(){listening(T);};
+}
+/* ---------- reading ---------- */
+function reading(T){
+  $('sub').textContent=T.title+' · Reading';
+  var R=T.reading,cur=0,done=false;
+  main.innerHTML=needName()+'<h2>📖 Reading</h2><div class="row"><label><input type="checkbox" id="exm"> Exam mode (60-minute timer)</label></div><div class="tabs" id="tabs"></div><div id="pp"></div><div class="row" style="margin-top:10px"><button class="btn2 gold" id="sub1">Check my answers ✓</button><button class="btn2 alt" id="again" style="display:none">Try again ↺</button></div><div id="res"></div>';
+  var out='';R.passages.forEach(function(p,i){
+    out+='<div class="psg" style="display:'+(i?'none':'block')+'"><div class="split"><div class="pass"><h3>'+esc(p.title)+'</h3><div class="small">'+esc(p.intro)+'</div><br>'+p.paras.map(function(x){return '<p>'+(x[0]?'<b class="l">'+x[0]+'</b>':'')+esc(x[1])+'</p>';}).join('')+'</div><div>'+groupsHTML(p.groups,'R')+'</div></div></div>';});
+  $('pp').innerHTML=out;
+  $('tabs').innerHTML=R.passages.map(function(p,i){return '<button class="'+(i?'':'on')+'" onclick="rTab('+i+')">Passage '+(i+1)+'</button>';}).join('');
+  window.rTab=function(i){document.querySelectorAll('.psg').forEach(function(e,k){e.style.display=k===i?'block':'none';});document.querySelectorAll('#tabs button').forEach(function(b,k){b.className=k===i?'on':'';});window.scrollTo(0,0);};
+  $('exm').onchange=function(){if(this.checked)startTimer(60,finish);else stopTimer();};
+  function finish(){
+    if(done)return;done=true;stopTimer();var tot=0,sc=0;
+    R.passages.forEach(function(p){var r=mark(p.groups,'R');sc+=r.score;tot+=r.total;});
+    var band=bandOf(T.bands.R,sc);
+    $('res').innerHTML='<div class="sum"><div>Reading score</div><div class="band">'+sc+' / '+tot+' &nbsp;·&nbsp; Band '+band.toFixed(1)+'</div><div class="small" style="color:#cfd8ef">Band is an estimate from the Academic conversion table.</div></div>';
+    $('sub1').style.display='none';$('again').style.display='inline-block';setBest(T.id,'reading',{score:sc,total:tot,band:band});report(T,'reading',sc,tot,band,false);
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+  }
+  $('sub1').onclick=finish;$('again').onclick=function(){reading(T);};
+}
+/* ---------- writing (self-assessed with model answers) ---------- */
+function wc(s){var m=s.trim().match(/\S+/g);return m?m.length:0;}
+function writing(T){
+  $('sub').textContent=T.title+' · Writing';
+  var W=T.writing,cur=1;
+  function view(){
+    var t=cur===1?W.task1:W.task2,key='ep-w-'+T.id+'-'+cur,draft=store(key)||'';
+    var h=needName()+'<h2>✍️ Writing</h2><div class="tabs"><button class="'+(cur===1?'on':'')+'" onclick="wTab(1)">Task 1</button><button class="'+(cur===2?'on':'')+'" onclick="wTab(2)">Task 2</button></div>'
+     +'<div class="split"><div><div class="card"><b>'+esc(t.title)+'</b> <span class="small">· about '+t.time+' minutes · at least '+t.minWords+' words</span><p>'+esc(t.prompt)+'</p>'+(cur===1?'<img class="chart" src="'+T.id+'-task1.png" alt="Bar chart">':'')+'</div>'
+     +'<div class="row" style="margin:8px 0"><button class="btn2 alt" onclick="startTimer('+t.time+',function(){})">Start '+t.time+'-minute timer</button></div></div>'
+     +'<div><textarea id="wt" placeholder="Write your answer here…">'+esc(draft)+'</textarea><div class="row"><b id="wcnt"></b><span class="small" id="wnote"></span></div></div></div>'
+     +'<div class="row" style="margin-top:10px"><button class="btn2 gold" onclick="wDone()">I have finished → model answer &amp; self-check</button></div><div id="wres"></div>';
+    main.innerHTML=h;var ta=$('wt');
+    function upd(){var n=wc(ta.value);$('wcnt').textContent=n+' words';$('wnote').textContent=n>=t.minWords?'✅ Minimum reached':'Minimum '+t.minWords+' words';store(key,ta.value);}
+    ta.oninput=upd;upd();
+  }
+  window.wTab=function(n){cur=n;view();};
+  window.wDone=function(){
+    var t=cur===1?W.task1:W.task2,n=wc($('wt').value);
+    var h='<div class="model"><b>Model answer (Band 8+)</b> <span class="small">· '+t.model.join(' ').split(/\s+/).length+' words</span>'+t.model.map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'</div>';
+    h+='<div class="card chk"><b>Self-check</b> <span class="small">· tick what you did</span>'+W.checklist.map(function(c,ci){return '<div style="margin-top:8px"><b>'+esc(c[0])+'</b>'+c[1].map(function(x,xi){return '<label><input type="checkbox" class="ck" data-c="'+ci+'"> '+esc(x)+'</label>';}).join('')+'</div>';}).join('')
+      +'<div style="margin-top:10px"><b>Your estimated band for this task</b> <select id="wb">'+[9,8.5,8,7.5,7,6.5,6,5.5,5,4.5,4,3.5,3].map(function(b){return '<option value="'+b+'"'+(b===6?' selected':'')+'>'+b.toFixed(1)+'</option>';}).join('')+'</select> <button class="btn2" onclick="wSave('+cur+','+n+')">Save</button> <span id="wsv" class="small"></span></div></div>';
+    $('wres').innerHTML=h;$('wres').scrollIntoView({behavior:'smooth'});
+  };
+  window.wSave=function(task,n){
+    var b=parseFloat($('wb').value);store('ep-wb-'+T.id+'-'+task,String(b));
+    var b1=parseFloat(store('ep-wb-'+T.id+'-1')||0),b2=parseFloat(store('ep-wb-'+T.id+'-2')||0),band=b1&&b2?Math.round((b1+2*b2)/3*2)/2:Math.max(b1,b2);
+    if(b1&&b2){setBest(T.id,'writing',{band:band,self:true});}
+    report(T,'writing',Math.round(b*10),90,band,true);$('wsv').textContent='✔ Saved'+(b1&&b2?' · Writing band '+band.toFixed(1)+' (Task 2 counts double)':'');
+  };
+  view();
+}
+/* ---------- speaking (listen, record, compare with model, self-assess) ---------- */
+function speaking(T){
+  $('sub').textContent=T.title+' · Speaking';
+  var S=T.speaking,part=1,rec={};
+  function recBox(id){return '<div class="rec"><button class="btn2 alt" onclick="recToggle(\''+id+'\',this)">🎙 Record my answer</button> <audio id="pl'+id+'" controls style="display:none;width:100%"></audio></div>';}
+  function view(){
+    var h=needName()+'<h2>🎤 Speaking</h2><div class="tabs">'+[1,2,3].map(function(p){return '<button class="'+(p===part?'on':'')+'" onclick="spTab('+p+')">Part '+p+'</button>';}).join('')+'</div>';
+    if(part===1){S.part1.forEach(function(g,gi){h+='<div class="grp"><h4>Topic: '+esc(g.topic)+'</h4>';g.qs.forEach(function(q,qi){var id='1-'+gi+'-'+qi;h+='<div class="q"><b>'+esc(q[0])+'</b><audio controls preload="none" src="'+AUDIO+T.id+'-s1-t'+(gi+1)+'-q'+(qi+1)+'.mp3"></audio>'+recBox(id)+'<details><summary>Model answer</summary><div class="model">'+esc(q[1])+'</div></details></div>';});h+='</div>';});}
+    if(part===2){var p=S.part2;h+='<div class="grp"><h4>Long turn · you have 1 minute to prepare, then speak for 1–2 minutes</h4><div class="card"><b>'+esc(p.prompt)+'</b><br>You should say:<ul>'+p.bullets.map(function(b){return '<li>'+esc(b)+'</li>';}).join('')+'</ul><audio controls preload="none" src="'+AUDIO+T.id+'-s2-prompt.mp3"></audio></div><div class="row" style="margin:8px 0"><button class="btn2 alt" onclick="startTimer(1,function(){})">Start 1-minute preparation</button><button class="btn2 alt" onclick="startTimer(2,function(){})">Start 2-minute talk</button></div>'+recBox('2-0')+'<details><summary>Model answer</summary><div class="model"><audio controls preload="none" src="'+AUDIO+T.id+'-s2-model.mp3"></audio><p>'+esc(p.model)+'</p></div></details></div>';}
+    if(part===3){h+='<div class="grp"><h4>Discussion</h4>';S.part3.forEach(function(q,qi){h+='<div class="q"><b>'+esc(q[0])+'</b><audio controls preload="none" src="'+AUDIO+T.id+'-s3-q'+(qi+1)+'.mp3"></audio>'+recBox('3-'+qi)+'<details><summary>Model answer</summary><div class="model">'+esc(q[1])+'</div></details></div>';});h+='</div>';}
+    h+='<div class="card"><b>Useful language</b>'+S.phrases.map(function(x){return '<div class="small"><b>'+esc(x[0])+':</b> '+esc(x[1])+'</div>';}).join('')+'</div>';
+    h+='<div class="card chk" style="margin-top:10px"><b>Self-assessment</b> <span class="small">· rate yourself after practising all three parts</span><div class="row" style="margin-top:6px">'+['Fluency and Coherence','Lexical Resource','Grammatical Range','Pronunciation'].map(function(c,i){return '<label>'+c+' <select class="sb">'+[9,8,7,6.5,6,5.5,5,4.5,4].map(function(b){return '<option value="'+b+'"'+(b===6?' selected':'')+'>'+b.toFixed(1)+'</option>';}).join('')+'</select></label>';}).join('')+'</div><button class="btn2" style="margin-top:8px" onclick="spSave()">Save my speaking band</button> <span class="small" id="ssv"></span></div>';
+    main.innerHTML=h;
+  }
+  window.spTab=function(p){part=p;view();};
+  window.spSave=function(){var v=[].map.call(document.querySelectorAll('.sb'),function(s){return parseFloat(s.value);}),band=Math.round(v.reduce(function(a,b){return a+b;},0)/4*2)/2;
+    setBest(T.id,'speaking',{band:band,self:true});report(T,'speaking',Math.round(band*10),90,band,true);$('ssv').textContent='✔ Saved · Speaking band '+band.toFixed(1);};
+  window.recToggle=function(id,btn){
+    if(!navigator.mediaDevices||!window.MediaRecorder){alert('Recording is not supported on this device.');return;}
+    if(rec[id]&&rec[id].state==='recording'){rec[id].stop();btn.textContent='🎙 Record again';return;}
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(st){var ch=[],r=new MediaRecorder(st);rec[id]=r;
+      r.ondataavailable=function(e){ch.push(e.data);};r.onstop=function(){st.getTracks().forEach(function(t){t.stop();});var a=$('pl'+id);a.src=URL.createObjectURL(new Blob(ch,{type:r.mimeType}));a.style.display='block';};
+      r.start();btn.textContent='⏹ Stop';}).catch(function(){alert('Please allow microphone access.');});
+  };
+  view();
+}
+route();
+</script>
+</body>
+</html>
