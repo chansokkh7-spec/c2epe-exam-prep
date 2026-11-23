@@ -10,10 +10,10 @@
 :root{--navy:#0f2147;--navy2:#24407f;--gold:#c9973a;--gold2:#e8c36a;--ink:#1d1d1f;--ok:#1e8e3e;--bad:#d93025;--bg:#f4f6fb;--mut:#6a738a}
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans Khmer",sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.5}
-header{background:radial-gradient(circle at 30% 20%,var(--navy2),var(--navy) 70%);color:#fff;padding:12px 16px;border-bottom:4px solid var(--gold);position:sticky;top:0;z-index:30}
+header{background:#fff;color:var(--navy);padding:12px 16px;border-bottom:4px solid var(--gold);position:sticky;top:0;z-index:30}
 header .in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px}
-header h1{margin:0;font-size:18px;flex:1}header h1 small{display:block;color:var(--gold2);font-size:12px;font-weight:600;letter-spacing:.5px}
-header button{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:6px 14px;cursor:pointer;font-size:13px}
+header h1{margin:0;font-size:18px;flex:1}header h1 small{display:block;color:var(--gold);font-size:12px;font-weight:600;letter-spacing:.5px}
+header button{background:#fff;color:var(--navy);border:1.5px solid var(--navy);border-radius:20px;padding:6px 14px;cursor:pointer;font-size:13px}
 #timer{background:var(--gold);color:var(--navy);font-weight:800;border-radius:20px;padding:5px 12px;font-size:14px;display:none}
 main{max-width:1100px;margin:0 auto;padding:14px 12px 90px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
@@ -48,7 +48,7 @@ img.chart{max-width:100%;border:1px solid #e3e8f5;border-radius:10px;background:
 </style>
 </head>
 <body>
-<header><div class="in"><button id="back" onclick="goBack()" style="display:none">← Back</button><img src="logo.png" alt="C2-EPE Testing Center" style="height:46px;background:#fff;border-radius:8px;padding:2px 6px"><h1>Testing Center<small id="sub">Practice tests for international and national exams</small></h1><span id="timer"></span></div></header>
+<header><div class="in"><button id="back" onclick="goBack()" style="display:none">← Back</button><img src="logo.png" alt="C2-EPE Testing Center" style="height:46px"><h1>Testing Center<small id="sub">Practice tests for international and national exams</small></h1><span id="timer"></span></div></header>
 <main id="main"></main>
 <script type="module">
 /* sends scores to the school's Firebase (same collection as c2-practice.html) */
@@ -60,6 +60,7 @@ try{
 }catch(e){console.warn("Firebase not available",e);}
 </script>
 <script src="exams.js"></script>
+<script src="book.js"></script>
 <script>
 var AUDIO="audio/", main=document.getElementById('main'), timerEl=document.getElementById('timer');
 function $(id){return document.getElementById(id);}
@@ -113,7 +114,7 @@ function route(){
   $('back').style.display=p.length?'inline-block':'none';
   if(!p.length)return home();
   if(p.length===1)return family(p[0]);
-  loadTest(p[1],function(T){ if(p.length===2)return lobby(T); var f={listening:listening,reading:reading,writing:writing,speaking:speaking}[p[2]]; f?f(T):lobby(T);});
+  loadTest(p[1],function(T){ if(T.kind==='book')return bookRoute(T,p); if(p.length===2)return lobby(T); var f={listening:listening,reading:reading,writing:writing,speaking:speaking}[p[2]]; f?f(T):lobby(T);});
 }
 function home(){
   $('sub').textContent='Practice tests for international and national exams';
