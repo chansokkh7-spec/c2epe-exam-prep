@@ -102,7 +102,7 @@ function bookTest(T){
     if(sk==='speaking'){[].forEach.call(document.querySelectorAll('.sb'),function(s){sc+=parseInt(s.value,10);tot+=5;});self=true;}
     if(sk==='writing'){[].forEach.call(document.querySelectorAll('.sw'),function(s){sc+=parseInt(s.value,10);tot+=5;});self=true;}
     if(sk==='listening'&&parts)parts.forEach(function(p,i){$('ttr'+i).innerHTML=scriptHTML(p.script);});
-    var pct=Math.round(sc*100/tot),lv=pct>=80?'🌟 Excellent — ready for the next level (A2)!':pct>=60?'👍 Good — review the lessons you missed.':'💪 Keep practising — repeat the lessons, then try again.';
+    var pct=Math.round(sc*100/tot),lv=pct>=80?'🌟 Excellent — ready for the next level!':pct>=60?'👍 Good — review the lessons you missed.':'💪 Keep practising — repeat the lessons, then try again.';
     $('bres').innerHTML='<div class="sum"><div>Level Test score'+(self?' (includes self-assessment)':'')+'</div><div class="band">'+sc+' / '+tot+' &nbsp;·&nbsp; '+pct+'%</div><div>'+lv+'</div></div>';
     $('bchk').style.display='none';$('bagain').style.display='inline-block';
     bBest(T,'test',{score:sc,total:tot});bReport(T,'test','Level Test',sc,tot,self);$('bres').scrollIntoView({behavior:'smooth'});
