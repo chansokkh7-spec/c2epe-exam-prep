@@ -1,6 +1,6 @@
 var EXAM_FAMILIES=[
  {id:"ielts",icon:"🎓",name:"IELTS Academic",desc:"Listening, Reading, Writing and Speaking for study abroad.",tests:[{id:"ielts-1",title:"IELTS Academic Practice Test 1",info:"Full test · 40 + 40 questions · Writing · Speaking"}]},
- {id:"levels",icon:"🪜",name:"IELTS by Level (A1–C2)",desc:"Skill books for each level (CEFR A1 ≈ IELTS 1.0–2.5 · A2 ≈ 3.0–3.5 · B1 ≈ 4.0–5.0 · B2 ≈ 5.5–6.5 · C1 ≈ 7.0–8.0 · C2 ≈ 8.5–9.0): Listening, Speaking, Reading, Writing and Grammar. A1, A2, B1, B2 and C1 are ready; C2 is coming soon.",tests:[
+ {id:"levels",icon:"🪜",name:"IELTS by Level (A1–C2)",desc:"Skill books for each level (CEFR A1 ≈ IELTS 1.0–2.5 · A2 ≈ 3.0–3.5 · B1 ≈ 4.0–5.0 · B2 ≈ 5.5–6.5 · C1 ≈ 7.0–8.0 · C2 ≈ 8.5–9.0): Listening, Speaking, Reading, Writing and Grammar. All levels A1–C2 are ready.",tests:[
   {id:"a1-listening",group:"A1 · Beginner  (≈ IELTS Band 1.0–2.5)",title:"Listening",info:"8 lessons + Level Test"},{id:"a1-speaking",group:"A1 · Beginner  (≈ IELTS Band 1.0–2.5)",title:"Speaking",info:"8 lessons + Level Test"},{id:"a1-reading",group:"A1 · Beginner  (≈ IELTS Band 1.0–2.5)",title:"Reading",info:"8 lessons + Level Test"},{id:"a1-writing",group:"A1 · Beginner  (≈ IELTS Band 1.0–2.5)",title:"Writing",info:"8 lessons + Level Test"},{id:"a1-grammar",group:"A1 · Beginner  (≈ IELTS Band 1.0–2.5)",title:"Grammar",info:"8 lessons + Level Test"},
   {id:"a2-listening",group:"A2 · Elementary  (≈ IELTS Band 3.0–3.5)",title:"Listening",info:"8 lessons + Level Test"},{id:"a2-speaking",group:"A2 · Elementary  (≈ IELTS Band 3.0–3.5)",title:"Speaking",info:"8 lessons + Level Test"},{id:"a2-reading",group:"A2 · Elementary  (≈ IELTS Band 3.0–3.5)",title:"Reading",info:"8 lessons + Level Test"},{id:"a2-writing",group:"A2 · Elementary  (≈ IELTS Band 3.0–3.5)",title:"Writing",info:"8 lessons + Level Test"},{id:"a2-grammar",group:"A2 · Elementary  (≈ IELTS Band 3.0–3.5)",title:"Grammar",info:"8 lessons + Level Test"},{id:"b1-listening",group:"B1 · Intermediate  (≈ IELTS Band 4.0–5.0)",title:"Listening",info:"8 lessons + Level Test"},{id:"b1-speaking",group:"B1 · Intermediate  (≈ IELTS Band 4.0–5.0)",title:"Speaking",info:"8 lessons + Level Test"},{id:"b1-reading",group:"B1 · Intermediate  (≈ IELTS Band 4.0–5.0)",title:"Reading",info:"8 lessons + Level Test"},{id:"b1-writing",group:"B1 · Intermediate  (≈ IELTS Band 4.0–5.0)",title:"Writing",info:"8 lessons + Level Test"},{id:"b1-grammar",group:"B1 · Intermediate  (≈ IELTS Band 4.0–5.0)",title:"Grammar",info:"8 lessons + Level Test"},
     {id:"b2-listening",group:"B2 · Upper-Intermediate  (≈ IELTS Band 5.5–6.5)",title:"Listening",info:"8 lessons + Level Test"},
@@ -12,7 +12,12 @@ var EXAM_FAMILIES=[
     {id:"c1-speaking",group:"C1 · Advanced  (≈ IELTS Band 7.0–8.0)",title:"Speaking",info:"8 lessons + Level Test"},
     {id:"c1-reading",group:"C1 · Advanced  (≈ IELTS Band 7.0–8.0)",title:"Reading",info:"8 lessons + Level Test"},
     {id:"c1-writing",group:"C1 · Advanced  (≈ IELTS Band 7.0–8.0)",title:"Writing",info:"8 lessons + Level Test"},
-    {id:"c1-grammar",group:"C1 · Advanced  (≈ IELTS Band 7.0–8.0)",title:"Grammar",info:"8 lessons + Level Test"}]},
+    {id:"c1-grammar",group:"C1 · Advanced  (≈ IELTS Band 7.0–8.0)",title:"Grammar",info:"8 lessons + Level Test"},
+    {id:"c2-listening",group:"C2 · Proficiency  (≈ IELTS Band 8.5–9.0)",title:"Listening",info:"8 lessons + Level Test"},
+    {id:"c2-speaking",group:"C2 · Proficiency  (≈ IELTS Band 8.5–9.0)",title:"Speaking",info:"8 lessons + Level Test"},
+    {id:"c2-reading",group:"C2 · Proficiency  (≈ IELTS Band 8.5–9.0)",title:"Reading",info:"8 lessons + Level Test"},
+    {id:"c2-writing",group:"C2 · Proficiency  (≈ IELTS Band 8.5–9.0)",title:"Writing",info:"8 lessons + Level Test"},
+    {id:"c2-grammar",group:"C2 · Proficiency  (≈ IELTS Band 8.5–9.0)",title:"Grammar",info:"8 lessons + Level Test"}]},
  {id:"toefl",icon:"🗽",name:"TOEFL iBT",desc:"For universities in the USA and Canada.",tests:[]},
  {id:"toeic",icon:"💼",name:"TOEIC",desc:"English for work: Listening and Reading.",tests:[]},
  {id:"cambridge",icon:"🏛️",name:"Cambridge English",desc:"KET, PET, FCE and CAE (A2–C1).",tests:[]},
