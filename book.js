@@ -1,4 +1,7 @@
 /* ---------- leveled books (A1–C2): lessons + level test ---------- */
+var BANDS={A1:['Beginner',1.0,2.5],A2:['Elementary',3.0,3.5],B1:['Intermediate',4.0,5.0],B2:['Upper-Intermediate',5.5,6.5],C1:['Advanced',7.0,8.0],C2:['Proficiency',8.5,9.0]};
+function bandTxt(lv){var b=BANDS[lv];return b?b[1].toFixed(1)+' – '+b[2].toFixed(1):'';}
+function estBand(lv,pct){var b=BANDS[lv];if(!b)return 0;return Math.round((b[1]+(b[2]-b[1])*pct/100)*2)/2;}
 var SKI={listening:'🎧',reading:'📖',speaking:'🎤',writing:'✍️',grammar:'🧩'};
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 function bReport(T,key,title,score,total,self){
@@ -16,7 +19,7 @@ function bookRoute(T,p){
 }
 function bookHome(T){
   $('sub').textContent=T.title;
-  var h=needName()+'<h2>'+SKI[T.skill]+' '+esc(T.title)+'</h2><p class="small">'+esc(T.about||'')+'</p><div class="grid">';
+  var h=needName()+'<h2>'+SKI[T.skill]+' '+esc(T.title)+'</h2><p class="small">'+esc(T.about||'')+'</p><div class="sum" style="padding:10px 16px"><b>CEFR '+T.level+' ('+BANDS[T.level][0]+') ≈ IELTS Band '+bandTxt(T.level)+'</b> <span class="small" style="color:#cfd8ef">· approximate guide</span></div><div class="grid">';
   T.lessons.forEach(function(L){var b=bGet(T,'L'+L.n);
     h+='<div class="card btn" onclick="go(\'#/'+location.hash.split('/')[1]+'/'+T.id+'/L'+L.n+'\')"><div class="small">Lesson '+L.n+'</div><h3>'+esc(L.title)+'</h3><div>'+(b?'Best: <b>'+b.score+' / '+b.total+'</b>':'<span class="tag soon">Not done yet</span>')+'</div></div>';});
   var tb=bGet(T,'test');
@@ -103,7 +106,7 @@ function bookTest(T){
     if(sk==='writing'){[].forEach.call(document.querySelectorAll('.sw'),function(s){sc+=parseInt(s.value,10);tot+=5;});self=true;}
     if(sk==='listening'&&parts)parts.forEach(function(p,i){$('ttr'+i).innerHTML=scriptHTML(p.script);});
     var pct=Math.round(sc*100/tot),lv=pct>=80?'🌟 Excellent — ready for the next level!':pct>=60?'👍 Good — review the lessons you missed.':'💪 Keep practising — repeat the lessons, then try again.';
-    $('bres').innerHTML='<div class="sum"><div>Level Test score'+(self?' (includes self-assessment)':'')+'</div><div class="band">'+sc+' / '+tot+' &nbsp;·&nbsp; '+pct+'%</div><div>'+lv+'</div></div>';
+    $('bres').innerHTML='<div class="sum"><div>Level Test score'+(self?' (includes self-assessment)':'')+'</div><div class="band">'+sc+' / '+tot+' &nbsp;·&nbsp; '+pct+'%</div><div>'+lv+'</div><div style="margin-top:6px">Estimated IELTS band: <b>'+estBand(T.level,pct).toFixed(1)+'</b> <span class="small" style="color:#cfd8ef">(CEFR '+T.level+' ≈ IELTS '+bandTxt(T.level)+'; approximate)</span></div></div>';
     $('bchk').style.display='none';$('bagain').style.display='inline-block';
     bBest(T,'test',{score:sc,total:tot});bReport(T,'test','Level Test',sc,tot,self);$('bres').scrollIntoView({behavior:'smooth'});
   }

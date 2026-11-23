@@ -168,7 +168,7 @@ function val(q,pre){
   if(q.t==='sel')return $('a'+id).value;
   var r=document.querySelector('input[name="a'+id+'"]:checked');return r?r.value:'';
 }
-function normFill(s){return String(s).toLowerCase().replace(/[‘’`]/g,"'").replace(/£/g,'').replace(/[.,;:!?]+$/,'').replace(/,/g,'').replace(/[\s\-]+/g,' ').trim();}
+function normFill(s){return String(s).toLowerCase().replace(/[‘’`]/g,"'").replace(/£/g,'').replace(/[.,;:!?]/g,'').replace(/[\s\-]+/g,' ').trim();}
 function isRight(q,v){
   if(!v)return false;
   if(q.t!=='fill')return v===q.a;
