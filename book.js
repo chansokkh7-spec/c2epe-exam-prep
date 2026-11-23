@@ -3,7 +3,7 @@ var SKI={listening:'🎧',reading:'📖',speaking:'🎤',writing:'✍️',gramma
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 function bReport(T,key,title,score,total,self){
   var me=who()||{name:'(no name)',cls:'',studentId:'',login:false},now=new Date();
-  send({prefix:'ielts',level:'IELTS '+T.level+' '+cap(T.skill),setId:T.id+'-'+key,setTitle:T.title+' · '+title,kind:'exam',exam:'IELTS '+T.level,section:T.skill,band:null,selfAssessed:!!self,
+  send({prefix:'tc-ielts-'+T.id,level:'IELTS '+T.level+' '+cap(T.skill),setId:T.id+'-'+key,setTitle:T.title+' · '+title,kind:'exam',exam:'IELTS '+T.level,section:T.skill,band:null,selfAssessed:!!self,
     studentId:me.studentId,studentName:me.name,cls:me.cls,login:!!me.login,score:score,total:total,pct:Math.round(score*100/Math.max(1,total)),attempt:1,at:now.toISOString(),day:now.toISOString().slice(0,10)});
 }
 function bBest(T,key,o){var k='ep-best-'+T.id+'-'+key,b=jget(k,null);if(!b||o.score>=b.score)store(k,JSON.stringify(o));}
