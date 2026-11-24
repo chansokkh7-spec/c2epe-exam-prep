@@ -1,13 +1,16 @@
 /* ---------- leveled books (A1–C2): lessons + level test ---------- */
 var BANDS={A1:['Beginner',1.0,2.5],A2:['Elementary',3.0,3.5],B1:['Intermediate',4.0,5.0],B2:['Upper-Intermediate',5.5,6.5],C1:['Advanced',7.0,8.0],C2:['Proficiency',8.5,9.0]};
 function bandTxt(lv){var b=BANDS[lv];return b?b[1].toFixed(1)+' – '+b[2].toFixed(1):'';}
+var CAMR={KET:['A2 Key (KET)',100,150,'A2'],PET:['B1 Preliminary (PET)',120,160,'B1'],FCE:['B2 First (FCE)',140,190,'B2'],CAE:['C1 Advanced (CAE)',160,210,'C1']};
+function estCam(n,pct){var b=CAMR[n];return Math.round(b[1]+(b[2]-b[1])*pct/100);}
+function estToeic(pct){return Math.max(5,Math.min(495,Math.round((5+490*pct/100)/5)*5));}
 function estToefl(pct){return Math.round((1+5*pct/100)*2)/2;}
 function estBand(lv,pct){var b=BANDS[lv];if(!b)return 0;return Math.round((b[1]+(b[2]-b[1])*pct/100)*2)/2;}
 var SKI={listening:'🎧',reading:'📖',speaking:'🎤',writing:'✍️',grammar:'🧩'};
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 function bReport(T,key,title,score,total,self){
   var me=who()||{name:'(no name)',cls:'',studentId:'',login:false},now=new Date();
-  send({prefix:(T.toefl?'tc-':'tc-ielts-')+T.id,level:(T.toefl?'TOEFL Test '+T.tn+' ':'IELTS '+T.level+' ')+cap(T.skill),setId:T.id+'-'+key,setTitle:T.title+' · '+title,kind:'exam',exam:T.toefl?'TOEFL':'IELTS '+T.level,section:T.skill,band:null,selfAssessed:!!self,
+  send({prefix:((T.toefl||T.toeic||T.cam)?'tc-':'tc-ielts-')+T.id,level:(T.cam?'Cambridge '+T.cname+' ':T.toeic?'TOEIC Test '+T.tn+' ':T.toefl?'TOEFL Test '+T.tn+' ':'IELTS '+T.level+' ')+cap(T.skill),setId:T.id+'-'+key,setTitle:T.title+' · '+title,kind:'exam',exam:T.cam?'Cambridge '+T.cname:T.toeic?'TOEIC':T.toefl?'TOEFL':'IELTS '+T.level,section:T.skill,band:null,selfAssessed:!!self,
     studentId:me.studentId,studentName:me.name,cls:me.cls,login:!!me.login,score:score,total:total,pct:Math.round(score*100/Math.max(1,total)),attempt:1,at:now.toISOString(),day:now.toISOString().slice(0,10)});
 }
 function bBest(T,key,o){var k='ep-best-'+T.id+'-'+key,b=jget(k,null);if(!b||o.score>=b.score)store(k,JSON.stringify(o));}
@@ -20,11 +23,11 @@ function bookRoute(T,p){
 }
 function bookHome(T){
   $('sub').textContent=T.title;
-  var h=needName()+'<h2>'+SKI[T.skill]+' '+esc(T.title)+'</h2><p class="small">'+esc(T.about||'')+'</p><div class="sum" style="padding:10px 16px">'+(T.toefl?'<b>TOEFL iBT · 2026 format · scored 1–6 (aligned with CEFR)</b> <span class="small" style="color:#cfd8ef">· practice estimate only</span>':'<b>CEFR '+T.level+' ('+BANDS[T.level][0]+') ≈ IELTS Band '+bandTxt(T.level)+'</b> <span class="small" style="color:#cfd8ef">· approximate guide</span>')+'</div><div class="grid">';
+  var h=needName()+'<h2>'+SKI[T.skill]+' '+esc(T.title)+'</h2><p class="small">'+esc(T.about||'')+'</p><div class="sum" style="padding:10px 16px">'+(T.cam?'<b>Cambridge English · '+CAMR[T.cname][0]+' · CEFR '+CAMR[T.cname][3]+' · Cambridge English Scale '+CAMR[T.cname][1]+'–'+CAMR[T.cname][2]+'</b> <span class="small" style="color:#cfd8ef">· practice estimate only</span>':T.toeic?'<b>TOEIC Listening &amp; Reading · each section scored 5–495 (total 10–990)</b> <span class="small" style="color:#cfd8ef">· practice estimate only</span>':T.toefl?'<b>TOEFL iBT · 2026 format · scored 1–6 (aligned with CEFR)</b> <span class="small" style="color:#cfd8ef">· practice estimate only</span>':'<b>CEFR '+T.level+' ('+BANDS[T.level][0]+') ≈ IELTS Band '+bandTxt(T.level)+'</b> <span class="small" style="color:#cfd8ef">· approximate guide</span>')+'</div><div class="grid">';
   T.lessons.forEach(function(L){var b=bGet(T,'L'+L.n);
     h+='<div class="card btn" onclick="go(\'#/'+location.hash.split('/')[1]+'/'+T.id+'/L'+L.n+'\')"><div class="small">Lesson '+L.n+'</div><h3>'+esc(L.title)+'</h3><div>'+(b?'Best: <b>'+b.score+' / '+b.total+'</b>':'<span class="tag soon">Not done yet</span>')+'</div></div>';});
   var tb=bGet(T,'test');
-  h+='<div class="card btn" style="border:2px solid var(--gold)" onclick="go(\'#/'+location.hash.split('/')[1]+'/'+T.id+'/test\')"><div class="small">'+(T.toefl?'TOEFL iBT 2026 format':'IELTS-style')+'</div><h3>'+(T.toefl?'🏁 Practice Test':'🏁 Level Test')+'</h3><div class="small">'+esc(T.test.info||'')+'</div><div style="margin-top:6px">'+(tb?'Best: <b>'+tb.score+' / '+tb.total+'</b> ('+Math.round(tb.score*100/tb.total)+'%)':'<span class="tag soon">Not done yet</span>')+'</div></div></div>';
+  h+='<div class="card btn" style="border:2px solid var(--gold)" onclick="go(\'#/'+location.hash.split('/')[1]+'/'+T.id+'/test\')"><div class="small">'+(T.cam?'Cambridge English '+T.cname:T.toeic?'TOEIC L&R':T.toefl?'TOEFL iBT 2026 format':'IELTS-style')+'</div><h3>'+((T.toefl||T.toeic||T.cam)?'🏁 Practice Test':'🏁 Level Test')+'</h3><div class="small">'+esc(T.test.info||'')+'</div><div style="margin-top:6px">'+(tb?'Best: <b>'+tb.score+' / '+tb.total+'</b> ('+Math.round(tb.score*100/tb.total)+'%)':'<span class="tag soon">Not done yet</span>')+'</div></div></div>';
   main.innerHTML=h;
 }
 function vocabHTML(v){return v&&v.length?'<div class="card" style="margin-bottom:10px"><b>Key words</b><div class="row" style="margin-top:6px">'+v.map(function(x){return '<span class="tag" style="background:#eef2fb;color:#24407f;font-size:14px;padding:3px 10px">'+esc(x[0])+' · '+esc(x[1])+'</span>';}).join('')+'</div></div>':'';}
@@ -41,7 +44,7 @@ window.bkRec=function(id,btn){
     r.start();btn.textContent='⏹ Stop';}).catch(function(){alert('Please allow microphone access.');});
 };
 function spQ(q,id){return '<div class="q"><b>'+esc(q.q)+'</b>'+(q.au?'<audio controls preload="none" src="'+AUDIO+q.au+'"></audio>':'')+bRecBox(id)+'<details><summary>Model answer</summary><div class="model">'+esc(q.a)+'</div></details></div>';}
-function cueHTML(c,id){return '<div class="grp"><h4>Talk about it · 1 minute</h4><div class="card"><b>'+esc(c.prompt)+'</b><br>You should say:<ul>'+c.bullets.map(function(b){return '<li>'+esc(b)+'</li>';}).join('')+'</ul>'+(c.au?'<audio controls preload="none" src="'+AUDIO+c.au+'"></audio>':'')+'</div><div class="row" style="margin:8px 0"><button class="btn2 alt" onclick="startTimer(1,function(){})">Start 1-minute talk timer</button></div>'+bRecBox(id)+'<details><summary>Model answer</summary><div class="model">'+(c.mau?'<audio controls preload="none" src="'+AUDIO+c.mau+'"></audio>':'')+'<p>'+esc(c.model)+'</p></div></details></div>';}
+function cueHTML(c,id){return '<div class="grp"><h4>'+esc(c.h||'Talk about it · 1 minute')+'</h4><div class="card"><b>'+esc(c.prompt)+'</b><br>'+esc(c.lead||'You should say:')+'<ul>'+c.bullets.map(function(b){return '<li>'+esc(b)+'</li>';}).join('')+'</ul>'+(c.au?'<audio controls preload="none" src="'+AUDIO+c.au+'"></audio>':'')+'</div><div class="row" style="margin:8px 0"><button class="btn2 alt" onclick="startTimer('+(c.min||1)+',function(){})">Start '+(c.min||1)+'-minute timer</button></div>'+bRecBox(id)+'<details><summary>Model answer</summary><div class="model">'+(c.mau?'<audio controls preload="none" src="'+AUDIO+c.mau+'"></audio>':'')+'<p>'+esc(c.model)+'</p></div></details></div>';}
 function wBlock(T,key,t,min){
   var dk='ep-w-'+T.id+'-'+key;
   return '<div class="grp"><h4>✍️ '+esc(t.title||'Writing task')+'</h4><div class="card"><p>'+esc(t.prompt)+'</p>'+(t.table?'<table style="border-collapse:collapse;margin:6px 0">'+t.table.map(function(r,i){return '<tr>'+r.map(function(c){return '<'+(i?'td':'th')+' style="border:1px solid #c9d2e8;padding:4px 10px">'+esc(c)+'</'+(i?'td':'th')+'>';}).join('')+'</tr>';}).join('')+'</table>':'')+'<span class="small">Write at least '+min+' words.</span></div>'
@@ -87,7 +90,7 @@ function bookTest(T){
   if(parts){parts.forEach(function(p,i){
     h+='<div class="grp" style="border:2px solid #e3e8f5"><h3 style="margin:0 0 6px;color:var(--navy)">'+esc(p.title)+'</h3>';
     if(p.audio)h+='<audio id="tau'+i+'" controls preload="none" src="'+AUDIO+p.audio+'"></audio>';
-    if(p.text)h+=paraHTML(p.text);
+    if(p.text)h+=paraHTML(p.text);if(p.texts)p.texts.forEach(function(t){h+=paraHTML(t);});
     h+=groupsHTML(p.groups,'B')+'<div id="ttr'+i+'"></div></div>';allG=allG.concat(p.groups);});}
   else if(X.groups){h+=groupsHTML(X.groups,'B');allG=X.groups;}
   if(sk==='speaking'){var S=X.speaking;
@@ -107,7 +110,7 @@ function bookTest(T){
     if(sk==='writing'){[].forEach.call(document.querySelectorAll('.sw'),function(s){sc+=parseInt(s.value,10);tot+=5;});self=true;}
     if(sk==='listening'&&parts)parts.forEach(function(p,i){$('ttr'+i).innerHTML=scriptHTML(p.script);});
     var pct=Math.round(sc*100/tot),lv=pct>=80?'🌟 Excellent — ready for the next level!':pct>=60?'👍 Good — review the lessons you missed.':'💪 Keep practising — repeat the lessons, then try again.';
-    $('bres').innerHTML='<div class="sum"><div>Level Test score'+(self?' (includes self-assessment)':'')+'</div><div class="band">'+sc+' / '+tot+' &nbsp;·&nbsp; '+pct+'%</div><div>'+lv+'</div><div style="margin-top:6px">'+(T.toefl?'Estimated TOEFL band (1–6): <b>'+estToefl(pct).toFixed(1)+'</b> <span class="small" style="color:#cfd8ef">(rough practice guide; not an official score)</span>':'Estimated IELTS band: <b>'+estBand(T.level,pct).toFixed(1)+'</b> <span class="small" style="color:#cfd8ef">(CEFR '+T.level+' ≈ IELTS '+bandTxt(T.level)+'; approximate)</span>')+'</div></div>';
+    $('bres').innerHTML='<div class="sum"><div>Level Test score'+(self?' (includes self-assessment)':'')+'</div><div class="band">'+sc+' / '+tot+' &nbsp;·&nbsp; '+pct+'%</div><div>'+lv+'</div><div style="margin-top:6px">'+(T.cam?'Estimated Cambridge English Scale score ('+T.cname+', '+CAMR[T.cname][1]+'–'+CAMR[T.cname][2]+'): <b>'+estCam(T.cname,pct)+'</b> <span class="small" style="color:#cfd8ef">(rough practice guide; not an official score)</span>':T.toeic?'Estimated TOEIC '+cap(T.skill)+' score (5–495): <b>'+estToeic(pct)+'</b> <span class="small" style="color:#cfd8ef">(rough practice guide; not an official score)</span>':T.toefl?'Estimated TOEFL band (1–6): <b>'+estToefl(pct).toFixed(1)+'</b> <span class="small" style="color:#cfd8ef">(rough practice guide; not an official score)</span>':'Estimated IELTS band: <b>'+estBand(T.level,pct).toFixed(1)+'</b> <span class="small" style="color:#cfd8ef">(CEFR '+T.level+' ≈ IELTS '+bandTxt(T.level)+'; approximate)</span>')+'</div></div>';
     $('bchk').style.display='none';$('bagain').style.display='inline-block';
     bBest(T,'test',{score:sc,total:tot});bReport(T,'test','Level Test',sc,tot,self);$('bres').scrollIntoView({behavior:'smooth'});
   }
