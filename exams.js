@@ -55,9 +55,22 @@ var EXAM_FAMILIES=[
   {id:"cambridge-cae-listening",group:"C1 Advanced (CAE)  (CEFR C1)",title:"Listening",info:"Parts 1–4 · 30 questions · played twice"},
   {id:"cambridge-cae-writing",group:"C1 Advanced (CAE)  (CEFR C1)",title:"Writing",info:"Essay + one more task"},
   {id:"cambridge-cae-speaking",group:"C1 Advanced (CAE)  (CEFR C1)",title:"Speaking",info:"4 parts · record yourself"}]},
+ {id:"teacher",icon:"🎓",name:"Teacher & Civil Service",desc:"English MCQ practice for students and teachers preparing for the state teacher-training or civil service (public servant) entrance exam.",tests:[
+  {id:"teacher-1-reading",group:"Teacher & Civil Service English (MCQ)",title:"Practice Test 1",info:"50 questions · Grammar · Vocabulary · Classroom language"},
+  {id:"teacher-2-reading",group:"Teacher & Civil Service English (MCQ)",title:"Practice Test 2",info:"50 questions · Grammar · Vocabulary · Classroom language"},
+  {id:"teacher-3-reading",group:"Teacher & Civil Service English (MCQ)",title:"Practice Test 3",info:"50 questions · Grammar · Vocabulary · Classroom language"},
+  {id:"nie-1-reading",group:"NIE Entrance Exam style (Secondary Teacher)",title:"Practice Test 1 · Sections I–IV",info:"57 questions · scored out of 80"},
+  {id:"nie-1-writing",group:"NIE Entrance Exam style (Secondary Teacher)",title:"Practice Test 1 · Writing",info:"Essay · 20 points"},
+  {id:"nie-2-reading",group:"NIE Entrance Exam style (Secondary Teacher)",title:"Practice Test 2 · Sections I–IV",info:"57 questions · scored out of 80"},
+  {id:"nie-2-writing",group:"NIE Entrance Exam style (Secondary Teacher)",title:"Practice Test 2 · Writing",info:"Essay · 20 points"},
+  {id:"nie-3-reading",group:"NIE Entrance Exam style (Secondary Teacher)",title:"Practice Test 3 · Sections I–IV",info:"57 questions · scored out of 80"},
+  {id:"nie-3-writing",group:"NIE Entrance Exam style (Secondary Teacher)",title:"Practice Test 3 · Writing",info:"Essay · 20 points"}]},
  {id:"grade9",icon:"📘",name:"Grade 9 National Exam",desc:"English practice tests in the style of the Cambodian Grade 9 exam: grammar, vocabulary, conversations, cloze, reading and word forms. 50 marks, pass mark 25.",tests:[
   {id:"grade9-1-reading",group:"Grade 9 National Exam (English)",title:"Practice Test 1",info:"50 questions · 5 parts · 60 minutes"},
   {id:"grade9-2-reading",group:"Grade 9 National Exam (English)",title:"Practice Test 2",info:"50 questions · 5 parts · 60 minutes"},
   {id:"grade9-3-reading",group:"Grade 9 National Exam (English)",title:"Practice Test 3",info:"50 questions · 5 parts · 60 minutes"}]},
- {id:"grade12",icon:"📗",name:"Grade 12 National Exam",desc:"English practice for the Grade 12 national exam.",tests:[]}
+ {id:"grade12",icon:"📗",name:"Grade 12 National Exam",desc:"English practice tests in the style of the Cambodian Grade 12 exam: pronunciation, grammar, conversations, cloze, reading and error identification. 50 marks, pass mark 25.",tests:[
+  {id:"grade12-1-reading",group:"Grade 12 National Exam (English)",title:"Practice Test 1",info:"50 questions · 6 parts · 60 minutes"},
+  {id:"grade12-2-reading",group:"Grade 12 National Exam (English)",title:"Practice Test 2",info:"50 questions · 6 parts · 60 minutes"},
+  {id:"grade12-3-reading",group:"Grade 12 National Exam (English)",title:"Practice Test 3",info:"50 questions · 6 parts · 60 minutes"}]},
 ];

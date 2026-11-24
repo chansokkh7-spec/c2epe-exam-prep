@@ -147,7 +147,7 @@ function lobby(T){
   main.innerHTML=h;
 }
 /* ---------- question rendering & scoring ---------- */
-var LET='ABCDEFGH';
+var LET='ABCDEFGHIJKL';
 function qHTML(q,g,pre){
   var id=pre+q.n,h='<div class="q" id="q'+id+'"><span class="n">'+q.n+'</span>'+(q.img?'<div style="margin:6px 0 6px 30px"><img class="qimg" src="'+q.img+'" alt="Photo '+q.n+'"></div>':'');
   if(q.t==='fill'){var parts=q.q.split('____');h+=esc(parts[0])+' <input type="text" id="a'+id+'" autocomplete="off" autocapitalize="off" spellcheck="false"> '+esc(parts[1]||'');}
