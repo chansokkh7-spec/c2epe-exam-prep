@@ -82,7 +82,7 @@ window.C2FLUSH=function(){var q=queue();if(!q.length||!window.C2SAVE)return;stor
 setTimeout(function(){if(window.C2FLUSH)window.C2FLUSH();},3000);
 function report(T,skill,score,total,band,self){
   var me=who()||{name:'(no name)',cls:'',studentId:'',login:false},now=new Date();
-  send({prefix:'tc-ielts-1',level:T.exam,setId:T.id+'-'+skill,setTitle:T.title+' · '+skill.charAt(0).toUpperCase()+skill.slice(1),kind:'exam',exam:T.exam,section:skill,band:band,selfAssessed:!!self,
+  send({prefix:'tc-'+T.id,level:T.exam,setId:T.id+'-'+skill,setTitle:T.title+' · '+skill.charAt(0).toUpperCase()+skill.slice(1),kind:'exam',exam:T.exam,section:skill,band:band,selfAssessed:!!self,
         studentId:me.studentId,studentName:me.name,cls:me.cls,login:!!me.login,score:score,total:total,pct:Math.round(score*100/Math.max(1,total)),attempt:1,at:now.toISOString(),day:now.toISOString().slice(0,10)});
 }
 function needName(){
