@@ -1,12 +1,13 @@
 /* ---------- leveled books (A1–C2): lessons + level test ---------- */
 var BANDS={A1:['Beginner',1.0,2.5],A2:['Elementary',3.0,3.5],B1:['Intermediate',4.0,5.0],B2:['Upper-Intermediate',5.5,6.5],C1:['Advanced',7.0,8.0],C2:['Proficiency',8.5,9.0]};
 function bandTxt(lv){var b=BANDS[lv];return b?b[1].toFixed(1)+' – '+b[2].toFixed(1):'';}
+function estToefl(pct){return Math.round((1+5*pct/100)*2)/2;}
 function estBand(lv,pct){var b=BANDS[lv];if(!b)return 0;return Math.round((b[1]+(b[2]-b[1])*pct/100)*2)/2;}
 var SKI={listening:'🎧',reading:'📖',speaking:'🎤',writing:'✍️',grammar:'🧩'};
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 function bReport(T,key,title,score,total,self){
   var me=who()||{name:'(no name)',cls:'',studentId:'',login:false},now=new Date();
-  send({prefix:'tc-ielts-'+T.id,level:'IELTS '+T.level+' '+cap(T.skill),setId:T.id+'-'+key,setTitle:T.title+' · '+title,kind:'exam',exam:'IELTS '+T.level,section:T.skill,band:null,selfAssessed:!!self,
+  send({prefix:(T.toefl?'tc-':'tc-ielts-')+T.id,level:(T.toefl?'TOEFL Test '+T.tn+' ':'IELTS '+T.level+' ')+cap(T.skill),setId:T.id+'-'+key,setTitle:T.title+' · '+title,kind:'exam',exam:T.toefl?'TOEFL':'IELTS '+T.level,section:T.skill,band:null,selfAssessed:!!self,
     studentId:me.studentId,studentName:me.name,cls:me.cls,login:!!me.login,score:score,total:total,pct:Math.round(score*100/Math.max(1,total)),attempt:1,at:now.toISOString(),day:now.toISOString().slice(0,10)});
 }
 function bBest(T,key,o){var k='ep-best-'+T.id+'-'+key,b=jget(k,null);if(!b||o.score>=b.score)store(k,JSON.stringify(o));}
@@ -19,11 +20,11 @@ function bookRoute(T,p){
 }
 function bookHome(T){
   $('sub').textContent=T.title;
-  var h=needName()+'<h2>'+SKI[T.skill]+' '+esc(T.title)+'</h2><p class="small">'+esc(T.about||'')+'</p><div class="sum" style="padding:10px 16px"><b>CEFR '+T.level+' ('+BANDS[T.level][0]+') ≈ IELTS Band '+bandTxt(T.level)+'</b> <span class="small" style="color:#cfd8ef">· approximate guide</span></div><div class="grid">';
+  var h=needName()+'<h2>'+SKI[T.skill]+' '+esc(T.title)+'</h2><p class="small">'+esc(T.about||'')+'</p><div class="sum" style="padding:10px 16px">'+(T.toefl?'<b>TOEFL iBT · 2026 format · scored 1–6 (aligned with CEFR)</b> <span class="small" style="color:#cfd8ef">· practice estimate only</span>':'<b>CEFR '+T.level+' ('+BANDS[T.level][0]+') ≈ IELTS Band '+bandTxt(T.level)+'</b> <span class="small" style="color:#cfd8ef">· approximate guide</span>')+'</div><div class="grid">';
   T.lessons.forEach(function(L){var b=bGet(T,'L'+L.n);
     h+='<div class="card btn" onclick="go(\'#/'+location.hash.split('/')[1]+'/'+T.id+'/L'+L.n+'\')"><div class="small">Lesson '+L.n+'</div><h3>'+esc(L.title)+'</h3><div>'+(b?'Best: <b>'+b.score+' / '+b.total+'</b>':'<span class="tag soon">Not done yet</span>')+'</div></div>';});
   var tb=bGet(T,'test');
-  h+='<div class="card btn" style="border:2px solid var(--gold)" onclick="go(\'#/'+location.hash.split('/')[1]+'/'+T.id+'/test\')"><div class="small">IELTS-style</div><h3>🏁 Level Test</h3><div class="small">'+esc(T.test.info||'')+'</div><div style="margin-top:6px">'+(tb?'Best: <b>'+tb.score+' / '+tb.total+'</b> ('+Math.round(tb.score*100/tb.total)+'%)':'<span class="tag soon">Not done yet</span>')+'</div></div></div>';
+  h+='<div class="card btn" style="border:2px solid var(--gold)" onclick="go(\'#/'+location.hash.split('/')[1]+'/'+T.id+'/test\')"><div class="small">'+(T.toefl?'TOEFL iBT 2026 format':'IELTS-style')+'</div><h3>'+(T.toefl?'🏁 Practice Test':'🏁 Level Test')+'</h3><div class="small">'+esc(T.test.info||'')+'</div><div style="margin-top:6px">'+(tb?'Best: <b>'+tb.score+' / '+tb.total+'</b> ('+Math.round(tb.score*100/tb.total)+'%)':'<span class="tag soon">Not done yet</span>')+'</div></div></div>';
   main.innerHTML=h;
 }
 function vocabHTML(v){return v&&v.length?'<div class="card" style="margin-bottom:10px"><b>Key words</b><div class="row" style="margin-top:6px">'+v.map(function(x){return '<span class="tag" style="background:#eef2fb;color:#24407f;font-size:14px;padding:3px 10px">'+esc(x[0])+' · '+esc(x[1])+'</span>';}).join('')+'</div></div>':'';}
@@ -90,7 +91,7 @@ function bookTest(T){
     h+=groupsHTML(p.groups,'B')+'<div id="ttr'+i+'"></div></div>';allG=allG.concat(p.groups);});}
   else if(X.groups){h+=groupsHTML(X.groups,'B');allG=X.groups;}
   if(sk==='speaking'){var S=X.speaking;
-    h+='<div class="grp"><h4>Part 1 · Questions</h4>'+S.part1.map(function(q,i){return spQ(q,'1-'+i);}).join('')+'</div>'+cueHTML(S.cue,'c')+'<div class="grp"><h4>Part 3 · Discussion</h4>'+S.part3.map(function(q,i){return spQ(q,'3-'+i);}).join('')+'</div>'
+    h+='<div class="grp"><h4>'+esc(S.h1||'Part 1 · Questions')+'</h4>'+S.part1.map(function(q,i){return spQ(q,'1-'+i);}).join('')+'</div>'+(S.cue?cueHTML(S.cue,'c'):'')+'<div class="grp"><h4>'+esc(S.h3||'Part 3 · Discussion')+'</h4>'+S.part3.map(function(q,i){return spQ(q,'3-'+i);}).join('')+'</div>'
      +'<div class="card chk"><b>Self-assessment</b> <span class="small">· 1 = needs work, 5 = very good</span><div class="row" style="margin-top:6px">'+['Fluency','Vocabulary','Grammar','Pronunciation'].map(function(c){return '<label>'+c+' <select class="sb">'+[5,4,3,2,1].map(function(b){return '<option value="'+b+'"'+(b===3?' selected':'')+'>'+b+'</option>';}).join('')+'</select></label>';}).join('')+'</div></div>';}
   if(sk==='writing'){X.tasks.forEach(function(t,i){BK['T'+i]={model:t.model,check:T.checklist,T:T};h+=wBlock(T,'T'+i,t,t.min);});
     h+='<div class="card chk"><b>Self-assessment of the two tasks</b> <span class="small">· 1–5 each</span><div class="row" style="margin-top:6px">'+['Task 1','Task 2'].map(function(c){return '<label>'+c+' <select class="sw">'+[5,4,3,2,1].map(function(b){return '<option value="'+b+'"'+(b===3?' selected':'')+'>'+b+'</option>';}).join('')+'</select></label>';}).join('')+'</div></div>';}
@@ -106,7 +107,7 @@ function bookTest(T){
     if(sk==='writing'){[].forEach.call(document.querySelectorAll('.sw'),function(s){sc+=parseInt(s.value,10);tot+=5;});self=true;}
     if(sk==='listening'&&parts)parts.forEach(function(p,i){$('ttr'+i).innerHTML=scriptHTML(p.script);});
     var pct=Math.round(sc*100/tot),lv=pct>=80?'🌟 Excellent — ready for the next level!':pct>=60?'👍 Good — review the lessons you missed.':'💪 Keep practising — repeat the lessons, then try again.';
-    $('bres').innerHTML='<div class="sum"><div>Level Test score'+(self?' (includes self-assessment)':'')+'</div><div class="band">'+sc+' / '+tot+' &nbsp;·&nbsp; '+pct+'%</div><div>'+lv+'</div><div style="margin-top:6px">Estimated IELTS band: <b>'+estBand(T.level,pct).toFixed(1)+'</b> <span class="small" style="color:#cfd8ef">(CEFR '+T.level+' ≈ IELTS '+bandTxt(T.level)+'; approximate)</span></div></div>';
+    $('bres').innerHTML='<div class="sum"><div>Level Test score'+(self?' (includes self-assessment)':'')+'</div><div class="band">'+sc+' / '+tot+' &nbsp;·&nbsp; '+pct+'%</div><div>'+lv+'</div><div style="margin-top:6px">'+(T.toefl?'Estimated TOEFL band (1–6): <b>'+estToefl(pct).toFixed(1)+'</b> <span class="small" style="color:#cfd8ef">(rough practice guide; not an official score)</span>':'Estimated IELTS band: <b>'+estBand(T.level,pct).toFixed(1)+'</b> <span class="small" style="color:#cfd8ef">(CEFR '+T.level+' ≈ IELTS '+bandTxt(T.level)+'; approximate)</span>')+'</div></div>';
     $('bchk').style.display='none';$('bagain').style.display='inline-block';
     bBest(T,'test',{score:sc,total:tot});bReport(T,'test','Level Test',sc,tot,self);$('bres').scrollIntoView({behavior:'smooth'});
   }
