@@ -55,6 +55,9 @@ var EXAM_FAMILIES=[
   {id:"cambridge-cae-listening",group:"C1 Advanced (CAE)  (CEFR C1)",title:"Listening",info:"Parts 1–4 · 30 questions · played twice"},
   {id:"cambridge-cae-writing",group:"C1 Advanced (CAE)  (CEFR C1)",title:"Writing",info:"Essay + one more task"},
   {id:"cambridge-cae-speaking",group:"C1 Advanced (CAE)  (CEFR C1)",title:"Speaking",info:"4 parts · record yourself"}]},
- {id:"grade9",icon:"📘",name:"Grade 9 National Exam",desc:"English practice for the Grade 9 national exam.",tests:[]},
+ {id:"grade9",icon:"📘",name:"Grade 9 National Exam",desc:"English practice tests in the style of the Cambodian Grade 9 exam: grammar, vocabulary, conversations, cloze, reading and word forms. 50 marks, pass mark 25.",tests:[
+  {id:"grade9-1-reading",group:"Grade 9 National Exam (English)",title:"Practice Test 1",info:"50 questions · 5 parts · 60 minutes"},
+  {id:"grade9-2-reading",group:"Grade 9 National Exam (English)",title:"Practice Test 2",info:"50 questions · 5 parts · 60 minutes"},
+  {id:"grade9-3-reading",group:"Grade 9 National Exam (English)",title:"Practice Test 3",info:"50 questions · 5 parts · 60 minutes"}]},
  {id:"grade12",icon:"📗",name:"Grade 12 National Exam",desc:"English practice for the Grade 12 national exam.",tests:[]}
 ];
