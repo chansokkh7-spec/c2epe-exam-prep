@@ -69,8 +69,18 @@ var EXAM_FAMILIES=[
   {id:"grade9-1-reading",group:"Grade 9 National Exam (English)",title:"Practice Test 1",info:"50 questions · 5 parts · 60 minutes"},
   {id:"grade9-2-reading",group:"Grade 9 National Exam (English)",title:"Practice Test 2",info:"50 questions · 5 parts · 60 minutes"},
   {id:"grade9-3-reading",group:"Grade 9 National Exam (English)",title:"Practice Test 3",info:"50 questions · 5 parts · 60 minutes"}]},
- {id:"grade12",icon:"📗",name:"Grade 12 National Exam",desc:"English practice tests in the style of the Cambodian Grade 12 exam: pronunciation, grammar, conversations, cloze, reading and error identification. 50 marks, pass mark 25.",tests:[
-  {id:"grade12-1-reading",group:"Grade 12 National Exam (English)",title:"Practice Test 1",info:"50 questions · 6 parts · 60 minutes"},
+ {id:"grade12",icon:"📗",name:"Grade 12 National Exam",desc:"English practice for the Cambodian Grade 12 (Bac II) exam: exam-style tests following the real paper format (Reading gap-fill, Grammar, Vocabulary, Writing) plus extra practice tests. 50 marks, pass mark 25.",tests:[
+    {id:"grade12-1-reading",group:"Grade 12 National Exam (English)",title:"Practice Test 1",info:"50 questions · 6 parts · 60 minutes"},
   {id:"grade12-2-reading",group:"Grade 12 National Exam (English)",title:"Practice Test 2",info:"50 questions · 6 parts · 60 minutes"},
-  {id:"grade12-3-reading",group:"Grade 12 National Exam (English)",title:"Practice Test 3",info:"50 questions · 6 parts · 60 minutes"}]},
+  {id:"grade12-3-reading",group:"Grade 12 National Exam (English)",title:"Practice Test 3",info:"50 questions · 6 parts · 60 minutes"},
+  {id:"grade12-bac-1-reading",group:"Bac II Exam Style (សញ្ញាបត្រមធ្យមសិក្សាទុតិយភូមិ)",title:"Exam-Style Test 1 · Reading, Grammar, Vocabulary",info:"40 questions · 40 marks"},
+  {id:"grade12-bac-1-writing",group:"Bac II Exam Style (សញ្ញាបត្រមធ្យមសិក្សាទុតិយភូមិ)",title:"Exam-Style Test 1 · Writing",info:"Writing · 10 marks"},
+  {id:"grade12-bac-2-reading",group:"Bac II Exam Style (សញ្ញាបត្រមធ្យមសិក្សាទុតិយភូមិ)",title:"Exam-Style Test 2 · Reading, Grammar, Vocabulary",info:"40 questions · 40 marks"},
+  {id:"grade12-bac-2-writing",group:"Bac II Exam Style (សញ្ញាបត្រមធ្យមសិក្សាទុតិយភូមិ)",title:"Exam-Style Test 2 · Writing",info:"Writing · 10 marks"},
+  {id:"grade12-bac-3-reading",group:"Bac II Exam Style (សញ្ញាបត្រមធ្យមសិក្សាទុតិយភូមិ)",title:"Exam-Style Test 3 · Reading, Grammar, Vocabulary",info:"40 questions · 40 marks"},
+  {id:"grade12-bac-3-writing",group:"Bac II Exam Style (សញ្ញាបត្រមធ្យមសិក្សាទុតិយភូមិ)",title:"Exam-Style Test 3 · Writing",info:"Writing · 10 marks"},
+  {id:"grade12-bac-4-reading",group:"Bac II Exam Style (សញ្ញាបត្រមធ្យមសិក្សាទុតិយភូមិ)",title:"Exam-Style Test 4 · Reading, Grammar, Vocabulary",info:"37 questions · 37 marks"},
+  {id:"grade12-bac-4-writing",group:"Bac II Exam Style (សញ្ញាបត្រមធ្យមសិក្សាទុតិយភូមិ)",title:"Exam-Style Test 4 · Writing",info:"Writing · 13 marks"},
+  {id:"grade12-bac-5-reading",group:"Bac II Exam Style (សញ្ញាបត្រមធ្យមសិក្សាទុតិយភូមិ)",title:"Exam-Style Test 5 · Reading, Grammar, Vocabulary",info:"37 questions · 37 marks"},
+  {id:"grade12-bac-5-writing",group:"Bac II Exam Style (សញ្ញាបត្រមធ្យមសិក្សាទុតិយភូមិ)",title:"Exam-Style Test 5 · Writing",info:"Writing · 13 marks"}]},
 ];
